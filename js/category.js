@@ -1,13 +1,13 @@
+var recuperarJson;
+var miIndice;
 $(document).ready(function() {
 
     $('.modal').modal();
     traerInformacion();
-
-
 });
 
 function traerInformacion(){
-    urlString = "/api/Category/all";
+    urlString = "http://150.230.95.72:8080/api/Category/all";
     $.ajax({
         method: "GET",
         url: urlString
@@ -16,13 +16,14 @@ function traerInformacion(){
         function(respuesta)
         {
             //alert("Datos"+respuesta);
+            recuperarJson = respuesta;
             $('#tablaCategory').dataTable( {
                 responsive: true,
                 data : respuesta,
                 columns: [
                     {"data": "name"},
                     {"data": "description"},
-                    {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class='material-icons'>edit</i></button><button class='btn btn-danger btn-sm btnBorrar'><i class='material-icons'>delete</i></button></div></div>"}          
+                    {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class='material-icons'>edit</i></button><button class='btn btn-danger btn-sm btnBorrar'><i class='material-icons'>delete</i></button></div></div>"}
                 ],
             });
             $('#tablaCategory').dataTable().ajax.reload();
@@ -53,17 +54,18 @@ function guardarInformacion()
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        url:"/api/Category/save",
+        url:"http://150.230.95.72:8080/api/Category/save",
         data: dataToSend,
         datatype:"json",
         cache: false,
         timeout: 600000,
         success:function(respuesta){
-            //alert("Se agrego la tabla correctamente");
-            //location.reload();
-            //$('#tablaCategory').dataTable().ajax.reload();
+            ///Codigo para actualizar tabla sin actualizar toda la página
             $('#tablaCategory').dataTable().fnDestroy();
             traerInformacion();
+            ///
+            ////Cerrar Modal
+            $('#modalGuardar').modal('close');
 
         },
         error : function(e) {
@@ -72,7 +74,45 @@ function guardarInformacion()
         done : function(e) {
             alert(e);
         }
-    }); 
+    });
+}
+
+/* $(document).on("click", ".btnBorrar", function(){
+    //alert(recuperarJson[0].id);
+    var table = $('#tablaCategory').DataTable();
+    var miIndice;
+ }); */
+
+/////Función para capturar el indice del dataTable
+ $('#tablaCategory tbody').on( 'click', 'tr', function ()
+{
+        var table = $('#tablaCategory').DataTable();
+        miIndice = table.row( this ).index();
+        //alert( 'Row index: '+table.row( this ).index() );
+        //alert(miIndice)
+        miIndice = recuperarJson[miIndice].id;
+        borrarCategoria(miIndice); ////Llamo la función con el id Capturado
+});
+
+function borrarCategoria(idElemento){
+    let myData={
+        id:idElemento
+    };
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.230.95.72:8080/api/Category/"+idElemento,
+        type:"DELETE",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+
+            ///Codigo para actualizar tabla sin actualizar toda la página
+            $('#tablaCategory').dataTable().fnDestroy();
+            traerInformacion();
+        }
+    });
+
 }
 
 /* ///////Boton borrar
