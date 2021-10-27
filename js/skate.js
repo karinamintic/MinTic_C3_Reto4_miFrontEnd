@@ -11,7 +11,7 @@ private String brand;
 private Integer year;
 private String description;*/
 
-function traerInformacion(){
+/* function traerInformacion(){
     $.ajax({
         url:"http://localhost:8080/api/Skate/all",
         type: "GET",
@@ -34,7 +34,7 @@ function traerInformacion(){
             });
         }
     });
-}
+} */
 
 function guardarInformacion()
 {
@@ -139,3 +139,4 @@ function editarInformacion()
         }
     });
 }
+
