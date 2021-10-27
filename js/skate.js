@@ -3,7 +3,6 @@ $(document).ready(function() {
     $('.modal').modal();
     traerInformacion();
 
-    
 
 });
 /*private Integer id;
@@ -29,7 +28,7 @@ function traerInformacion(){
                     {"data": "name"},
                     {"data": "brand"},
                     {"data": "model"},
-                    {"data": "category_id"}, 
+                    {"data": "category_id"},
                     {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class='material-icons'>edit</i></button><button class='btn btn-danger btn-sm btnBorrar'><i class='material-icons'>delete</i></button></div></div>"}          
                 ],
             });
