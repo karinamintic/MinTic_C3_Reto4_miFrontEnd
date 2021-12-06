@@ -39,7 +39,6 @@ private String description;*/
 function guardarInformacion()
 {
 
-    
 
     let myData = {
         name:$("#name").val(),
@@ -58,7 +57,7 @@ function guardarInformacion()
             //alert("Se agrego la tabla correctamente");
             location.reload();
         }
-    }); 
+    });
    /*  $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
